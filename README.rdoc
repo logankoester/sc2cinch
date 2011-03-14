@@ -19,8 +19,7 @@ It is distributed as a Ruby gem and based on Cinch and MongoDB.
   Successfully installed sc2cinch-0.1.0
   1 gem installed
 
-3. Set up a MongoDB database to store users information in. I recommend
-creating a free account at https://mongohq.com/
+3. Set up a MongoDB database to store users information in. I recommend creating a free account at https://mongohq.com
 
 4. Create a configuration file
 
@@ -29,7 +28,7 @@ creating a free account at https://mongohq.com/
 
   IRC Configuration
   -----------------
-  IRC Nick: MyBot
+  IRC Nick: SC2Cinch
   IRC Server: irc.myserver.net
   For password protected channels, type "#channel PASSWORD"
   Channel: #mychannel
@@ -58,7 +57,9 @@ their Starcraft II accounts. Visit http://sc2ranks.com to find your profile URL.
   [20:39] < SC2Cinch> logankoester's battle.net user set to logankoester, Battle.net ID 1485031
 
 Every user you map will have their wins and losses reported in the channel (after a delay,
-as it is only RSS). You can also find your current rank information.
+as it is only RSS). 
+
+You can also find your current rank information.
 
   [20:43] < SC2Cinch> logankoester is rank #1 in Division Routhe Whiskey (silver) with 300 wins and 271 
                       losses (0.53 win ratio) (last updated about 7 hours ago)
