@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+%w{rubygems cinch sc2ranks nokogiri open-uri
+   action_view mongo_mapper feedzirra thor}.each { |d| require d }
+
+require "cinch/plugins/starcraft"
+
+include ActionView::Helpers::DateHelper
+
+class App < Thor
+  desc "Ruby-based IRC bot for Starcraft II players"
+
+end
+#program :name, "sc2cinch"
+#program :version, File.read("#{File.dirname(__FILE__)}/../VERSION)")
+
+#command :setup do |c|
+#  c.syntax = "sc2cinch setup"
+#  c.description = "Generate a config file for sc2cinch"
+#  c.action do |args, options|
+#    say "This will generate a config file for sc2cinch"
+#    exit
+#  end
+#end
+
+MongoMapper.connection = Mongo::Connection.new('flame.mongohq.com', 27089)
+MongoMapper.database = 'database'
+MongoMapper.database.authenticate('user', 'pass')
+
+NICK = "SC2Cinch" 
+SERVER = "irc.rc6.org"
+CHANNELS = ["#sc2cinch"]
+RSS_INTERVAL = 20 * 60 # Every 20 minutes
+RSS_FLOODLINES = 5 # Maximum number of new entries to display at once
+
+$bot = Cinch::Bot.new do
+  configure do |c|
+    c.server = SERVER
+    c.nick = NICK
+    c.channels = CHANNELS
+    c.plugins.plugins = [Cinch::Plugins::Starcraft::Ranks, Cinch::Plugins::Starcraft::Feeds]
+  end
+end
+
+$bot.start
