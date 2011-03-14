@@ -48,6 +48,8 @@ It is distributed as a Ruby gem and based on Cinch and MongoDB.
 
   $ sc2cinch -f ~/.sc2cinch
 
+Use --daemonize if you want to run it in the background.
+
 == Usage
 
 When your IRC bot has joined a channel, you can start mapping its occupants to
