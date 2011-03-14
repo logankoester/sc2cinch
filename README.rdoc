@@ -11,9 +11,75 @@ It is distributed as a Ruby gem and based on Cinch and MongoDB.
 
 == Installation & Setup
 
-Install Ruby 1.9 if you don't already have it.
+1. Install Ruby 1.9 and rubygems if you don't already have it.
+
+2. Install sc2cinch
 
   $ gem install sc2cinch
+  Successfully installed sc2cinch-0.1.0
+  1 gem installed
+
+3. Set up a MongoDB database to store users information in. I recommend
+creating a free account at https://mongohq.com/
+
+4. Create a configuration file
+
+  $ sc2cinch --setup ~/.sc2cinch
+  sc2cinch v0.1.0 - IRC bot for Starcraft II players
+
+  IRC Configuration
+  -----------------
+  IRC Nick: MyBot
+  IRC Server: irc.myserver.net
+  For password protected channels, type "#channel PASSWORD"
+  Channel: #mychannel
+  Database Configuration
+  ----------------------
+  You can get free MongoDB hosting from http://mongohq.com
+  MongoDB Host: dbhost
+  MongoDB Port: 6000 
+  MongoDB Database: sc2cinch
+  MongoDB Username: sc2cinch
+  MongoDB Password: sc2cinch
+
+  File written.
+  Use sc2cinch -f ~/.sc2cinch to launch your bot.
+
+5. Launch your new IRC bot!
+
+  $ sc2cinch -f ~/.sc2cinch
+
+== Usage
+
+When your IRC bot has joined a channel, you can start mapping its occupants to
+their Starcraft II accounts. Visit http://sc2ranks.com to find your profile URL.
+
+  [20:39] < logankoester> !sc2set http://sc2ranks.com/us/1485031/logankoester
+  [20:39] < SC2Cinch> logankoester's battle.net user set to logankoester, Battle.net ID 1485031
+
+Every user you map will have their wins and losses reported in the channel (after a delay,
+as it is only RSS). You can also find your current rank information.
+
+  [20:43] < SC2Cinch> logankoester is rank #1 in Division Routhe Whiskey (silver) with 300 wins and 271 
+                      losses (0.53 win ratio) (last updated about 7 hours ago)
+
+Explore the other options and features available with !sc2help
+
+  [20:44] < logankoester> !sc2help
+  [20:44] < SC2Cinch> Display current rank for a Starcraft II player
+  [20:44] < SC2Cinch> !sc2rank - Display your current rank
+  [20:44] < SC2Cinch> !sc2rank <nick> - Display <nick>'s current rank
+  [20:44] < SC2Cinch> !sc2set <url> - Set your profile URL
+  [20:44] < SC2Cinch> !sc2set <nick> <url> - Set <nick>'s profile URL
+  [20:44] < SC2Cinch> !sc2refresh - Queue a refresh for yourself
+  [20:44] < SC2Cinch> !sc2refresh <nick> - Queue a refresh for your <nick>
+  [20:44] < SC2Cinch> To get your SC2ranks URL, visit http://sc2ranks.com
+  [20:44] < SC2Cinch> Author: Logan Koester <logan@logankoester.com>
+
+
+== Getting Help
+
+When all else fails, read the code!
 
 == Contributing to sc2cinch
  
