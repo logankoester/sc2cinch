@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sc2cinch}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Logan Koester"]
@@ -31,7 +31,8 @@ Gem::Specification.new do |s|
     "lib/cinch/plugins/starcraft/feeds.rb",
     "lib/cinch/plugins/starcraft/ranks.rb",
     "lib/cinch/plugins/starcraft/user.rb",
-    "lib/sc2cinch.rb"
+    "lib/sc2cinch.rb",
+    "sc2cinch.gemspec"
   ]
   s.homepage = %q{http://github.com/logankoester/sc2cinch}
   s.licenses = ["MIT"]
