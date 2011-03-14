@@ -109,7 +109,7 @@ module Cinch
         end
 
         def start_rss_thread
-          @rss_thread = Thread.new { FeedsReader.new($bot, CHANNELS).start }
+          @rss_thread = Thread.new { FeedsReader.new($bot, $config['channels']).start }
         end
 
         def stop_rss_thread

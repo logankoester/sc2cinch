@@ -9,12 +9,12 @@ module Cinch
 
         def start
           loop do
-            sleep RSS_INTERVAL
+            sleep $config['rss']['interval']
             @feeds = Feedzirra::Feed.update(@feeds.values)
             @feeds.each do |feed|
               feed = feed[1]
               nick = User.find_by_username( feed.title.split(" ").last ).nick
-              entries = feed.new_entries[0..(RSS_FLOODLINES-1)]
+              entries = feed.new_entries[0..($config['rss']['floodlines']-1)]
               entries.each do |entry|
                 msg = "#{nick} just played #{entry.title}"
                 @bot.dispatch(:rss_update, nil, {:channels => @channels, :message => msg })

@@ -1,45 +1,71 @@
 #!/usr/bin/env ruby
 
-%w{rubygems cinch sc2ranks nokogiri open-uri
-   action_view mongo_mapper feedzirra thor}.each { |d| require d }
+require 'rubygems'
+require 'daemons'
+require 'optiflag'
+require 'yaml'
 
-require "cinch/plugins/starcraft"
+APP_VERSION = File.read("#{File.dirname(__FILE__)}/../VERSION")
 
-include ActionView::Helpers::DateHelper
-
-class App < Thor
-  desc "Ruby-based IRC bot for Starcraft II players"
-
+def ask(q)
+  print q
+  a = STDIN.gets.chomp
+  return a
 end
-#program :name, "sc2cinch"
-#program :version, File.read("#{File.dirname(__FILE__)}/../VERSION)")
 
-#command :setup do |c|
-#  c.syntax = "sc2cinch setup"
-#  c.description = "Generate a config file for sc2cinch"
-#  c.action do |args, options|
-#    say "This will generate a config file for sc2cinch"
-#    exit
-#  end
-#end
-
-MongoMapper.connection = Mongo::Connection.new('flame.mongohq.com', 27089)
-MongoMapper.database = 'database'
-MongoMapper.database.authenticate('user', 'pass')
-
-NICK = "SC2Cinch" 
-SERVER = "irc.rc6.org"
-CHANNELS = ["#sc2cinch"]
-RSS_INTERVAL = 20 * 60 # Every 20 minutes
-RSS_FLOODLINES = 5 # Maximum number of new entries to display at once
-
-$bot = Cinch::Bot.new do
-  configure do |c|
-    c.server = SERVER
-    c.nick = NICK
-    c.channels = CHANNELS
-    c.plugins.plugins = [Cinch::Plugins::Starcraft::Ranks, Cinch::Plugins::Starcraft::Feeds]
+module App extend OptiFlagSet
+  optional_flag "file" do
+    alternate_forms "f"
+    description "Path to a configuration file"
   end
+
+  optional_flag "setup" do
+    description "Generate a configuration file"
+  end
+
+  optional_switch_flag "daemonize" do
+    alternate_forms "d"
+    description "Run this process in the background"
+  end
+  
+  and_process!
 end
 
-$bot.start
+puts "sc2cinch v#{APP_VERSION} - IRC bot for Starcraft II players"
+
+flag = App.flags
+
+if flag.file
+  Daemons.daemonize if flag.daemonize?
+  puts "Using configuration at #{flag.file}"
+  $config = YAML.load_file(flag.file)
+  require File.expand_path("#{File.dirname(__FILE__)}/../lib/sc2cinch.rb")
+elsif flag.setup
+  $config = {'rss' => {}, 'mongodb' => {}}
+  $config['rss']['interval'] = 20 * 60
+  $config['rss']['floodlines'] = 5
+
+  puts
+  puts "IRC Configuration"
+  puts "-----------------"
+  $config['nick'] = ask "IRC Nick: "
+  $config['server'] = ask "IRC Server: "
+  puts "For password protected channels, type \"#channel PASSWORD\""
+  $config['channels'] = [ask("Channel: ")]
+
+  puts "Database Configuration"
+  puts "----------------------"
+  puts "You can get free MongoDB hosting from http://mongohq.com"
+  $config['mongodb']['host'] = ask "MongoDB Host: "
+  $config['mongodb']['port'] = ask "MongoDB Port: "
+  $config['mongodb']['database'] = ask "MongoDB Database: "
+  $config['mongodb']['username'] = ask "MongoDB Username: "
+  $config['mongodb']['password'] = ask "MongoDB Password: "
+
+  File.open(flag.setup, 'w+') { |f| f << $config.to_yaml }
+  puts
+  puts "File written."
+  puts "Use sc2cinch -f #{flag.setup} to launch your bot."
+else
+  puts "Use sc2cinch --help for usage"
+end

@@ -1,6 +1,19 @@
 = sc2cinch
 
-Description goes here.
+sc2cinch is an IRC bot for Starcraft II players.
+
+Features:
+* Display the current rank for a Starcraft II player
+* Queue a refresh on your SC2Ranks profile
+* Report the games you've played in-channel (using RSS)
+
+It is distributed as a Ruby gem and based on Cinch and MongoDB.
+
+== Installation & Setup
+
+Install Ruby 1.9 if you don't already have it.
+
+  $ gem install sc2cinch
 
 == Contributing to sc2cinch
  

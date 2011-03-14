@@ -6,8 +6,9 @@ gem "nokogiri", "~> 1.4.4"
 gem "rails", "~> 3.0.3", :require => false # Just uses a couple utils from action_view
 gem "mongo_mapper", "~> 0.8.6"
 gem "feedzirra", "~> 0.0.24", :git => "git://github.com/bananastalktome/feedzirra.git"
-gem "thor", "~> 0.14.6"
 gem "bson_ext", "~> 1.2.4"
+gem "daemons", "~> 1.1.0"
+gem "optiflag", "~> 0.7"
 
 group :development do
   gem "bundler", "~> 1.0.0"
